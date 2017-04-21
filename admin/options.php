@@ -65,4 +65,6 @@ for ($i = 0; $i < count($settings); $i++) {
             </tbody>
         </table>
     </form>
+
+    <?php listAwsBuckets(); ?>
 </div>
