@@ -1,10 +1,17 @@
 <?php 
 
-add_filter('upload_dir', 'awsDirectory');
+function awsDirectory($param) {
+	$directory = '/testing';
 
-function awsDirectory($params) {
-	$directory = '/test';
+	$param['path'] = $param['basedir'] . $directory;
+	$param['url'] = $param['baseurl'] . $directory;
 
-	$params['path'] = $params['path'] . $directory;
-	$params['url'] = $params['url'] . $directory;
+    error_log("path={$param['path']}");
+    error_log("url={$param['url']}");
+    error_log("subdir={$param['subdir']}");
+    error_log("basedir={$param['basedir']}");
+    error_log("baseurl={$param['baseurl']}");
+    error_log("error={$param['error']}"); 
+
+    return $param;
 }
