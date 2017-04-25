@@ -1,7 +1,7 @@
 <?php 
 
 add_action('admin_menu', 'apu_admin_menu');
-add_filter('upload_dir', 'awsDirectory');
+// add_filter('upload_dir', 'awsDirectory');
 add_filter('wp_handle_upload_prefilter', 'addToAws');
 
 /**
@@ -9,7 +9,9 @@ add_filter('wp_handle_upload_prefilter', 'addToAws');
  * @return null
  */
 function awsDirectory() {
-	$path = 'https://s3-' . APU_BUCKET_REGION . '.amazonaws.com/' . APU_BUCKET_NAME . '/';
+    global $s3;
+
+	$path = "s3://" . APU_BUCKET_NAME . "/";
 
     return $path;
 }
@@ -27,8 +29,8 @@ function addToAws($file) {
     try {
         $result = $s3->putObject([
             'Bucket'     => APU_BUCKET_NAME,
-            'Key'        => $key,
-            'SourceFile' => $path
+            'Key'        => 'test',
+            'SourceFile' => 'turtle.jpg'
         ]);
     } catch (S3Exception $e) {
         echo $e->getMessage() . '\n';

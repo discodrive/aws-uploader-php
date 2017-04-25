@@ -23,3 +23,6 @@ try {
     // Display error if fails
     error_log($e->getMessage());
 }
+
+// Register the stream wrapper from an S3Client object
+$s3->registerStreamWrapper();
