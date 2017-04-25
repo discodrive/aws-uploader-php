@@ -2,7 +2,7 @@
 
 add_action('admin_menu', 'apu_admin_menu');
 // add_filter('upload_dir', 'awsDirectory');
-add_filter('wp_handle_upload_prefilter', 'addToAws');
+add_action( 'wp_handle_sideload_prefilter', 'addToAws');
 
 /**
  * Create the new upload path (used with upload_dir filter)
@@ -20,19 +20,13 @@ function awsDirectory() {
  * Intercept the upload process and upload the file to s3 (used with wp_handle_upload_prefilter)
  * @return null
  */
-function addToAws($file) {
-    global $s3;
+function addToAws(array $file) {
+    $upload_dir = wp_upload_dir();
+    $new_path   = $upload_dir['basedir'] . '/tmp/' . basename( $file['tmp_name'] );
 
-    $key = $file['name'];
-    $path = $_FILES['file'];
+    copy( $file['tmp_name'], $new_path );
+    unlink( $file['tmp_name'] );
+    $file['tmp_name'] = $new_path;
 
-    try {
-        $result = $s3->putObject([
-            'Bucket'     => APU_BUCKET_NAME,
-            'Key'        => 'test',
-            'SourceFile' => 'turtle.jpg'
-        ]);
-    } catch (S3Exception $e) {
-        echo $e->getMessage() . '\n';
-    }
+    return $file;
 }
