@@ -22,11 +22,10 @@ function awsDirectory() {
  * Intercept the upload process and upload the file to s3 (used with wp_handle_upload_prefilter)
  * @return null
  */
-function addToAws() {
+function addToAws($file) {
 	global $s3;
 
-	if (isset($_FILES['file'])) {
-		$file = $_FILES['file'];
+	if (isset($file)) {
 
 		$name 	  = $file['name'];
 		$tmp_name = $file['tmp_name'];
@@ -47,7 +46,7 @@ function addToAws() {
 			$s3->putObject([
 				'Bucket' => APU_BUCKET_NAME,
 				'Key'	 => "uploads/{$name}", // Where we store the file on s3
-				'Body'	 => fopen('tmp_file_path', 'rb'), // Resource (the actual file) and the access details (read or write)
+				'Body'	 => fopen($tmp_file_path, 'rb'), // Resource (the actual file) and the access details (read or write)
 				'ACL'	 => 'public-read' // Access Control Level
 			]);
 
