@@ -18,7 +18,6 @@ try {
     $result = $s3->getBucketCors([
         'Bucket' => APU_BUCKET_NAME,
     ]);
-    var_dump($result);
 } catch (AwsException $e) {
     // Display error if fails
     error_log($e->getMessage());

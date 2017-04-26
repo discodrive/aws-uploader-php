@@ -1,8 +1,10 @@
 <?php 
 
+use Aws\Exception\AwsException;
+
 add_action('admin_menu', 'apu_admin_menu');
 // add_filter('upload_dir', 'awsDirectory');
-add_action( 'wp_handle_sideload_prefilter', 'addToAws');
+add_action( 'wp_handle_upload_prefilter', 'addToAws');
 
 /**
  * Create the new upload path (used with upload_dir filter)
@@ -20,13 +22,40 @@ function awsDirectory() {
  * Intercept the upload process and upload the file to s3 (used with wp_handle_upload_prefilter)
  * @return null
  */
-function addToAws(array $file) {
-    $upload_dir = wp_upload_dir();
-    $new_path   = $upload_dir['basedir'] . '/tmp/' . basename( $file['tmp_name'] );
+function addToAws() {
+	global $s3;
 
-    copy( $file['tmp_name'], $new_path );
-    unlink( $file['tmp_name'] );
-    $file['tmp_name'] = $new_path;
+	if (isset($_FILES['file'])) {
+		$file = $_FILES['file'];
 
-    return $file;
+		$name 	  = $file['name'];
+		$tmp_name = $file['tmp_name'];
+
+		$extension =  explode('.', $name);
+		$extension = strtolower(end($extension));
+
+		// Set temp details
+		$key = md5(uniqid());
+		$tmp_file_name = "{key}.{extension}";
+		$tmp_file_path = get_temp_dir() . "/{tmp_file_name}";
+
+		// Move the file
+		move_uploaded_file($tmp_name, $tmp_file_path);
+
+		try {
+
+			$s3->putObject([
+				'Bucket' => APU_BUCKET_NAME,
+				'Key'	 => "uploads/{$name}", // Where we store the file on s3
+				'Body'	 => fopen('tmp_file_path', 'rb'), // Resource (the actual file) and the access details (read or write)
+				'ACL'	 => 'public-read' // Access Control Level
+			]);
+
+			// Remove the temp file from the server
+			unlink($tmp_file_path);
+
+		} catch(S3Exception $e) {
+			die("There was an error uploading the file");
+		}
+	}
 }
