@@ -5,4 +5,8 @@
             <directory>./Tests/</directory>
         </testsuite>
     </testsuites>
+
+    <!-- <logging>
+        <log type="coverage-html" target="../../coverage"></log>
+    </logging> -->
 </phpunit>

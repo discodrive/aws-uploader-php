@@ -8,7 +8,7 @@ add_action( 'wp_handle_upload_prefilter', 'addToAws');
 
 /**
  * Create the new upload path (used with upload_dir filter)
- * @return null
+ * @return String $path
  */
 function awsDirectory() {
     global $s3;
@@ -21,8 +21,6 @@ function awsDirectory() {
 /**
  * Insert an attachment from S3 address.
  * @param  String $url 
- * @param  Int    $post_id 
- * @param  Array  $meta_data 
  * @return Int    Attachment ID
  */
 
