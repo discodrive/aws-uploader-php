@@ -1,7 +1,16 @@
 <?php
 
-//  Add all buckets in the AWS account to an array
+/**
+ * Create the new upload path (used with upload_dir filter)
+ * @return String $path
+ */
+function awsDirectory() {
+    global $s3;
+    $path = 'https://s3.' . APU_BUCKET_REGION . '.amazonaws.com/' . APU_BUCKET_NAME;
+    return $path;
+}
 
+//  Add all buckets in the AWS account to an array
 function getAwsBuckets() {
     global $s3;
 
@@ -14,6 +23,7 @@ function getAwsBuckets() {
     return $list;
 }
 
+// Display the contents of the S3 bucket
 function getBucketContents()
 {
     global $s3;

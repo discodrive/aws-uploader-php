@@ -19,7 +19,7 @@ define('APU_SECRET_ACCESS_KEY', get_option('apuSecretAccessKey'));
 
 require __DIR__ . '/vendor/autoload.php';
 require __DIR__ . '/admin/actions.php';
-require __DIR__ . '/admin/hooks.php';
+require __DIR__ . '/app/hooks.php';
 require __DIR__ . '/app/setup.php';
 require __DIR__ . '/app/errors.php';
 require __DIR__ . '/app/helpers.php';
