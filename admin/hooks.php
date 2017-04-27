@@ -29,8 +29,9 @@ function awsDirectory() {
 function insertAttachment($url, $post_id = null) 
 {
 
-	if(!class_exists('WP_Http'))
+	if(!class_exists('WP_Http')) {
 		include_once(ABSPATH . WPINC . '/class-http.php');
+	}
 
 	$http = new WP_Http();
 	$response = $http->request($url);

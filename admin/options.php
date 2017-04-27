@@ -66,5 +66,4 @@ for ($i = 0; $i < count($settings); $i++) {
             </tbody>
         </table>
     </form>
-    <?php getBucketContents(); ?>
 </div>
