@@ -35,7 +35,6 @@ for ($i = 0; $i < count($settings); $i++) {
                     <td>
                         <input type="text" name="apuBucketName" value="<?php echo $apuBucketName; ?>" id="apuBucketName" class="regular-text"/>
                         <p class="description">The name of your bucket exactly as it appears on AWS S3</p>
-                        <span class="error"><?php echo bucketError(); ?></span>
                     </td>
                 </tr>
                 <tr>

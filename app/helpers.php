@@ -10,7 +10,10 @@ function awsDirectory() {
     return $path;
 }
 
-//  Add all buckets in the AWS account to an array
+/**
+ * Add all buckets in the AWS account to an array
+ * @return Array $list
+ */
 function getAwsBuckets() {
     global $s3;
 
@@ -23,7 +26,10 @@ function getAwsBuckets() {
     return $list;
 }
 
-// Display the contents of the S3 bucket
+/**
+ * Display the contents of the S3 bucket
+ * @return String
+ */
 function getBucketContents()
 {
     global $s3;

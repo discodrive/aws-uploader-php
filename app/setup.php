@@ -4,7 +4,6 @@ use Aws\S3\S3Client;
 use Aws\Exception\AwsException;
 
 // Create a new s3 instance
-
 $s3 = new S3Client([
     'version'     => 'latest',
     'region'      => APU_BUCKET_REGION,
