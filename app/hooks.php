@@ -26,7 +26,7 @@ function changeUploadDir($dirs) {
  * @return Null
  */
 function deleteAttachment($post_id = null) {
-
+	
 }
 
 // /**
